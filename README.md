@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Config
 
-Things you may want to cover:
+* Ruby version 2.7
 
-* Ruby version
+* Rails version 7.0.1
 
-* System dependencies
+* Database : Postgresql
 
-* Configuration
+* Database Name : ror_assignment
 
-* Database creation
+* Authentication : Devise
 
-* Database initialization
+### Problems Occurred
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* While Creating a New user it inserts a record into the database but throws an error (i.e method user_url not Found)
