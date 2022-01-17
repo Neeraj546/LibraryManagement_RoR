@@ -1,0 +1,37 @@
+<%= form_with(model: lib) do |form| %>
+  <% if lib.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(lib.errors.count, "error") %> prohibited this lib from being saved:</h2>
+
+      <ul>
+        <% lib.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group" style="display: none;">
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id, :value => current_user.id, :class => "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :opening_time, style: "display: block" %>
+    <%= form.time_field :opening_time, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :closing_time, style: "display: block" %>
+    <%= form.time_field :closing_time, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>

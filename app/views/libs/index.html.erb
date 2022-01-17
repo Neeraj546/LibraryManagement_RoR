@@ -1,0 +1,93 @@
+
+  <% if user_signed_in? and current_user.admin? %>
+    <h1>Library</h1>
+    <h5>Total number of books <%
+      num = 0
+      @books.each do |book|
+        num = num + 1
+      end
+    %><%= num %></h5>
+    <%= link_to "New Library", new_lib_path %><br><br>
+    <div id="libs">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Opening Time</th>
+          <th>Closing Time</th>
+          <th>Number of Books</th>
+          <th colspan="2"></th></tr></thead>
+        <tbody>
+        <% @libs.each do |lib| %>
+          <tr>
+            <td><%= lib.name %></td>
+            <td><%= lib.opening_time.strftime("%I:%M %p") %></td>
+            <td><%= lib.closing_time.strftime("%I:%M %p") %></td>
+            <td>
+              <% nbook = 0 %>
+              <% @books.each do |book| %>
+                <% if lib.id == book.lib_id %>
+                  <% nbook = nbook + 1 %>
+                <% end %>
+              <% end %>
+              <%= nbook %>
+            </td>
+            <td><%= link_to "Show", lib, :class => "btn btn-primary" %></td>
+            <td><%= button_to "Delete", lib, method: :delete, :class => "btn btn-danger" %></td>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+      </div>
+    <% else %>
+      <% if user_signed_in? and !current_user.admin? %>
+      <h2>My Books</h2>
+      <h5>Total number of books <%
+      num = 0
+      @books.each do |book|
+        if book.author_id == current_user.id
+          num = num+1
+        end
+      end
+    %><%= num %></h5><br><br>
+        <div id="libs">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Published on</th>
+          <th>Language</th>
+          <th>Library</th></tr></thead>
+        <tbody>
+        <% @books.each do |book| %>
+          <% if current_user.id == book.author_id %>
+          <tr>
+            <td><%= book.title %></td>
+            <td><%= book.published_at %></td>
+            <td><%= book.language %></td>
+            <td>
+              <% if book.lib_id > 0 %>
+                <% @libs.each do |lib| %>
+                  <% if book.lib_id == lib.id %>
+                    <%= lib.name %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                Not Assigned
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+      </div>
+      <% else %>
+        <br>
+        <h2>Hello, Welcome to Library Management System.</h2>
+      <% end %>
+    <% end %>
+
+
+

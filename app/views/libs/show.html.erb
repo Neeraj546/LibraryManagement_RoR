@@ -1,0 +1,100 @@
+<div class="jumbotron">
+
+<h1><%= @lib.name %></h1>
+<% nbook = 0 %>
+<% @books.each do |book| %>
+  <% if @lib.id == book.lib_id %>
+    <% nbook = nbook + 1 %>
+  <% end %>
+<% end %>
+<span style="font-size: 18px;"><b>Number of Books </b><%= nbook %></span>
+<br><br>
+<p>
+  <b>Opening Time</b> <%= @lib.opening_time.strftime("%I:%M %p") %><br>
+  <b>Closing Time</b> <%= @lib.closing_time.strftime("%I:%M %p") %>
+</p>
+<br>
+<div>
+  <%= link_to "Edit this library", edit_lib_path(@lib), :class => "btn btn-secondary" %> 
+  <%= link_to "Back to libraries", libs_path, :class => "btn btn-dark" %>
+  <br><br>
+  <%= button_to "Destroy this library", @lib, method: :delete, :class => "btn btn-danger" %>
+</div>
+</div>
+
+<h3>Books</h3>
+<p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Show Unassigned Books
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Published on</th>
+          <th>Language</th>
+          <th>Author</th>
+          <th></th></tr></thead>
+        <tbody>
+        <% @books.each do |book| %>
+          <% if book.lib_id == 0 %>
+          <tr>
+            <td><%= book.title %></td>
+            <td><%= book.published_at %></td>
+            <td><%= book.language %></td>
+            <td>
+              <% @users.each do |auth| %>
+                <% if auth.id == book.author_id %>
+                  <%= auth.name %>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= link_to "Assign", updateLib_books_path(book: book, lib: @lib.id), :class => "btn btn-primary" %></td>
+          </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+  </div>
+</div><br>
+
+<p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseAssigned" role="button" aria-expanded="false" aria-controls="collapseAssigned">
+    Show Assigned Books
+  </a>
+</p>
+<div class="collapse" id="collapseAssigned">
+  <div class="card card-body">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Published on</th>
+          <th>Language</th>
+          <th>Author</th>
+          <th></th></tr></thead>
+        <tbody>
+        <% @books.each do |book| %>
+          <% if book.lib_id == @lib.id %>
+          <tr>
+            <td><%= book.title %></td>
+            <td><%= book.published_at %></td>
+            <td><%= book.language %></td>
+            <td>
+              <% @users.each do |auth| %>
+                <% if auth.id == book.author_id %>
+                  <%= auth.name %>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= link_to "Unassign", updateLib_books_path(book: book.id, lib: 0), :class => "btn btn-danger" %></td>
+          </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<%= form_with(model: book) do |form| %>
+  <% if book.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+
+      <ul>
+        <% book.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :published_at, style: "display: block" %>
+    <%= form.date_field :published_at, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :language, style: "display: block" %>
+    <%= form.text_field :language, :class => "form-control", :required => true %>
+  </div>
+
+  <div class="form-group" style="display:none">
+    <%= form.label :lib_id, style: "display: block" %>
+    <%= form.number_field :lib_id, :value => 0, :class => "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Library", :for => "selectlib", style: "display: block" %>
+    <select class="form-control" id="selectlib" required onchange="updatelib()">
+      <option value="0">Do not Assign</option>
+    <% @libs.each do |lib| %>
+      <option value="<%= lib.id %>"><%= lib.name %></option>
+    <% end %>
+  </select>
+  </div>
+
+  <div class="form-group" style="display:none">
+    <%= form.label :author_id, style: "display: block" %>
+    <%= form.number_field :author_id, :class => "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Author", :for => "selectauth", style: "display: block" %>
+    <select class="form-control" id="selectauth" required onchange="updateauth()">
+    <% @users.each do |auth| %>
+      <% if !current_user.admin? %>
+        <option value="<%= auth.id %>"><%= auth.name %></option>
+      <% end %>
+    <% end %>
+  </select>
+  </div>
+  <script>
+      document.getElementById('book_lib_id').value = document.getElementById('selectlib').value;
+      document.getElementById('book_author_id').value = document.getElementById('selectauth').value;
+
+      function updatelib(){
+        document.getElementById('book_lib_id').value = document.getElementById('selectlib').value;
+      }
+
+      function updateauth(){
+        document.getElementById('book_author_id').value = document.getElementById('selectauth').value;
+      }
+  </script>
+
+  <div class="form-group">
+    <%= form.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>
