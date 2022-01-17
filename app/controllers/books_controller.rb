@@ -76,7 +76,7 @@ class BooksController < ApplicationController
   end
 
   def admin_create
-    if current_user.admin?
+    if !current_user.admin?
       @lib = nil
     else
       @lib = true
