@@ -50,7 +50,7 @@
     <%= form.label "Author", :for => "selectauth", style: "display: block" %>
     <select class="form-control" id="selectauth" required onchange="updateauth()">
     <% @users.each do |auth| %>
-      <% if !current_user.admin? %>
+      <% if !auth.admin? %>
         <option value="<%= auth.id %>"><%= auth.name %></option>
       <% end %>
     <% end %>
