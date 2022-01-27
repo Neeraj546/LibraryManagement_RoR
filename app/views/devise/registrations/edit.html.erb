@@ -13,6 +13,11 @@
     <%= f.text_field :name, id: :name, :class => "form-control" %>
   </div>
 
+  <div class="field form-group" style="display: none;">
+    <%= f.label :admin %><br />
+    <%= f.text_field :admin, id: :admin, :class => "form-control" %>
+  </div>
+
   <div class="field form-group">
     <%= f.label :date_of_birth %><br />
     <%= f.date_field :date_of_birth, id: :date_of_birth, :class => "form-control" %>
